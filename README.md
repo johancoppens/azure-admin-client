@@ -4,6 +4,15 @@ azure-admin-client is a module with the aim of making it easier to manage users 
 
 ## Installation
 
+Clone repo
+
+```bash
+$ git clone git@github.com:johancoppens/azure-admin-client.git
+
+```
+
+Voor gebruik in eigen project
+
 ```bash
 $ npm install --save github:johancoppens/azure-admin-client
 ```
