@@ -77,6 +77,7 @@ module.exports = (function () {
    * @param {object} options
    * @param {string} options.firstName
    * @param {string} options.lastName
+   * @param {string} options.displayName
    * @param {string} options.userPrincipalName
    * @param {string} options.password
    * @param {boolean} [options.changePasswordAtNextLogin = true]
@@ -90,6 +91,7 @@ module.exports = (function () {
   const createUser = async ({
     firstName = r(),
     lastName = r(),
+    displayName = null,
     userPrincipalName = r(),
     password = r(),
     changePasswordAtNextLogin = true,
@@ -101,7 +103,7 @@ module.exports = (function () {
   } = {}) => {
     if (!_initialized) e('Module azure-admin-client not initialized with init()')
     const user = {
-      displayName: `${firstName} ${lastName}`,
+      displayName: displayName !== null ? displayName : `${firstName} ${lastName}`,
       givenName: firstName,
       surname: lastName,
       userPrincipalName: userPrincipalName,
@@ -278,7 +280,8 @@ module.exports = (function () {
         .get()
       return res
     } catch (err) {
-      if (err.response.status === 404) return null // not a real error
+      // console.log(err)
+      // if (err.response.statusCode === 404) return null // not a real error
       throw new AzureAdminServiceError(err.message)
     }
   }
@@ -508,6 +511,20 @@ module.exports = (function () {
     }
   }
 
+  /**
+   * Get raw client
+   * @memberof module:azure-admin-client
+   * @returns {Promise<boolean>}
+   */
+  const getClient = async () => {
+    if (!_initialized) e('Module azure-admin-client not initialized with init()')
+    try {
+      return _client
+    } catch (err) {
+      throw new AzureAdminServiceError(err.message)
+    }
+  }
+
   class CredentialProvider {
     constructor (conf) {
       this.conf = conf
@@ -597,6 +614,9 @@ module.exports = (function () {
     removeUserFromGroup,
     addGroupToGroup,
     removeGroupFromGroup,
+    getMailboxMessageRules,
+    createMailboxMessageRule,
+    getClient,
     AzureAdminServiceError
   }
 }())
