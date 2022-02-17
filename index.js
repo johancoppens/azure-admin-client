@@ -614,8 +614,6 @@ module.exports = (function () {
     removeUserFromGroup,
     addGroupToGroup,
     removeGroupFromGroup,
-    getMailboxMessageRules,
-    createMailboxMessageRule,
     getClient,
     AzureAdminServiceError
   }
